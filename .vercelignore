@@ -1,0 +1,7 @@
+.github
+scripts
+tests
+.env
+**/*.md
+codecov.yml
+jest*.config.js

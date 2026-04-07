@@ -1,0 +1,10 @@
+.vercel
+.env
+node_modules
+*.lock
+coverage
+dist
+
+# IDE
+.vscode/*
+.idea/

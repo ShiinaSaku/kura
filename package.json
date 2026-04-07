@@ -1,0 +1,43 @@
+{
+  "name": "kura",
+  "version": "1.0.0",
+  "description": "Dynamically generate stats for your GitHub readme",
+  "keywords": [
+    "card-generator",
+    "cards",
+    "github-readme-stats",
+    "readme-stats"
+  ],
+  "homepage": "https://github.com/shiinasaku/kura",
+  "bugs": {
+    "url": "https://github.com/shiinasaku/kura/issues"
+  },
+  "license": "MIT",
+  "author": "Anurag Hazra",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shiinasaku/kura.git"
+  },
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "node dev.js",
+    "preview-theme": "node scripts/preview-theme",
+    "generate-langs-json": "node scripts/generate-langs-json"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "emoji-name-map": "^2.0.3",
+    "github-username-regex": "^1.0.0",
+    "hono": "^4.12.12",
+    "ofetch": "^1.5.1",
+    "word-wrap": "^1.2.5"
+  },
+  "devDependencies": {
+    "@hono/node-server": "^1.19.13"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "npm@11.12.1"
+}
