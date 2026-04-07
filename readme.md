@@ -12,15 +12,15 @@ Dynamically generate GitHub stats cards for your README. A self-hostable fork of
 
 ## Endpoints
 
-| Route | Description |
-|---|---|
-| `/api?username=` | GitHub stats card |
-| `/api/pin?username=&repo=` | Repo pin card |
-| `/api/top-langs?username=` | Top languages card |
-| `/api/wakatime?username=` | WakaTime stats card |
-| `/api/gist?id=` | Gist pin card |
-| `/api/status/up` | PAT health check |
-| `/api/status/pat-info` | PAT detail info |
+| Route                      | Description         |
+| -------------------------- | ------------------- |
+| `/api?username=`           | GitHub stats card   |
+| `/api/pin?username=&repo=` | Repo pin card       |
+| `/api/top-langs?username=` | Top languages card  |
+| `/api/wakatime?username=`  | WakaTime stats card |
+| `/api/gist?id=`            | Gist pin card       |
+| `/api/status/up`           | PAT health check    |
+| `/api/status/pat-info`     | PAT detail info     |
 
 ## Local dev
 
