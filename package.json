@@ -1,6 +1,6 @@
 {
   "name": "kura",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Dynamically generate stats for your GitHub readme,a better and minimal fork of original github-readme-stats",
   "keywords": [
     "card-generator",
