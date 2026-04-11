@@ -1,0 +1,4 @@
+# Cloudflare local development secrets
+# Copy to .dev.vars for local `wrangler dev` usage
+PAT_1=your_github_token_here
+PAT_2=optional_second_token

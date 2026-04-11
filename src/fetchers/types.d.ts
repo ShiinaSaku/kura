@@ -19,7 +19,7 @@ export type RepositoryData = {
     color: string;
     id: string;
     name: string;
-  };
+  } | null;
   forkCount: number;
   starCount: number;
 };

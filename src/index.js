@@ -1,2 +1,2 @@
-export * from "./common/index.js";
-export * from "./cards/index.js";
+export * from "./common/index.ts";
+export * from "./cards/index.ts";

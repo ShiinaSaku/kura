@@ -1,8 +1,17 @@
 {
-  "redirects": [
+  "functions": {
+    "api/index.ts": {
+      "runtime": "nodejs24.x"
+    }
+  },
+  "rewrites": [
     {
-      "source": "/",
-      "destination": "https://github.com/shiinasaku/kura"
+      "source": "/api",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index"
     }
   ]
 }

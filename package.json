@@ -1,7 +1,7 @@
 {
   "name": "kura",
   "version": "1.0.0",
-  "description": "Dynamically generate stats for your GitHub readme",
+  "description": "Dynamically generate stats for your GitHub readme,a better and minimal fork of original github-readme-stats",
   "keywords": [
     "card-generator",
     "cards",
@@ -13,28 +13,67 @@
     "url": "https://github.com/shiinasaku/kura/issues"
   },
   "license": "MIT",
-  "author": "Anurag Hazra",
+  "author": {
+    "name": "Saku Shiina",
+    "email": "sakushiina@icloud.com",
+    "url": "https://shiina.xyz"
+  },
+  "contributors": [
+    {
+      "name": "Anurag Hazra"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/shiinasaku/kura.git"
   },
+  "cloudflare": {
+    "bindings": {
+      "PAT_1": {
+        "description": "GitHub Personal Access Token used for GitHub API requests. Configure this as a Worker secret."
+      },
+      "PAT_2": {
+        "description": "Optional fallback token used when PAT_1 is rate-limited."
+      },
+      "CACHE_SECONDS": {
+        "description": "Optional cache override in seconds, for example `86400`."
+      },
+      "FETCH_MULTI_PAGE_STARS": {
+        "description": "Set `true` to fetch star counts beyond the first 100 repositories."
+      }
+    }
+  },
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "dev": "node dev.js",
+    "dev": "node --env-file=.env --import tsx dev.js",
+    "dev:vercel": "vercel dev",
+    "build": "pnpm run build:bundle",
+    "deploy": "pnpm run deploy:cf",
+    "verify:production": "node --env-file=.env --import tsx scripts/verify-production.ts",
+    "dev:cf": "wrangler dev",
+    "deploy:cf": "wrangler deploy",
+    "deploy:vercel": "vercel deploy --prod",
+    "typecheck": "tsc --noEmit",
+    "build:bundle": "rolldown -c",
+    "build:bundle:watch": "rolldown -c -w",
     "preview-theme": "node scripts/preview-theme",
     "generate-langs-json": "node scripts/generate-langs-json"
   },
   "dependencies": {
-    "dotenv": "^17.4.1",
     "emoji-name-map": "^2.0.3",
     "github-username-regex": "^1.0.0",
     "hono": "^4.12.12",
-    "ofetch": "^1.5.1",
-    "word-wrap": "^1.2.5"
+    "word-wrap": "^1.2.5",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@hono/node-server": "^1.19.13"
+    "@cloudflare/workers-types": "^4.20260411.1",
+    "@hono/node-server": "^1.19.13",
+    "rolldown": "^1.0.0-rc.15",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2",
+    "wrangler": "^4.81.1"
   },
   "engines": {
     "node": "24.x"

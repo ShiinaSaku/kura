@@ -1,4 +1,6 @@
 .vercel
+.wrangler
+.dev.vars
 .env
 node_modules
 *.lock
@@ -8,3 +10,4 @@ dist
 # IDE
 .vscode/*
 .idea/
+github-readme-stats/
