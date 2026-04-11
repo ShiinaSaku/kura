@@ -133,7 +133,9 @@ async function runGhGraphql<TData>(query: string): Promise<GraphqlResponse<TData
 }
 
 async function discoverFixtureGist(targetUser: string): Promise<string | undefined> {
-  const data = (await runGhApi(`users/${encodeURIComponent(targetUser)}/gists?per_page=10`)) as Array<{
+  const data = (await runGhApi(
+    `users/${encodeURIComponent(targetUser)}/gists?per_page=10`,
+  )) as Array<{
     id: string;
   }>;
 
@@ -183,7 +185,10 @@ async function getExpectedStats(targetUser: string): Promise<ExpectedStats> {
     throw new Error("GraphQL stats query returned no user");
   }
 
-  const starsRaw = user.repositories.nodes.reduce((sum, repo) => sum + repo.stargazers.totalCount, 0);
+  const starsRaw = user.repositories.nodes.reduce(
+    (sum, repo) => sum + repo.stargazers.totalCount,
+    0,
+  );
   const commitsRaw = user.commits.totalCommitContributions;
   const prsRaw = user.pullRequests.totalCount;
   const issuesRaw = user.openIssues.totalCount + user.closedIssues.totalCount;
@@ -373,7 +378,8 @@ function printBenchmarkComparison(kura: AppBenchmark, og: AppBenchmark): { meets
     const latencyReduction = reductionPercent(ogResult.medianMs, kuraResult.medianMs);
     const memoryReduction = reductionPercent(ogResult.avgRssMb, kuraResult.avgRssMb);
 
-    const endpointPass = latencyReduction >= targetReductionPct && memoryReduction >= targetReductionPct;
+    const endpointPass =
+      latencyReduction >= targetReductionPct && memoryReduction >= targetReductionPct;
     meetsTarget = meetsTarget && endpointPass;
 
     console.log(`- ${endpointName}`);
@@ -386,13 +392,19 @@ function printBenchmarkComparison(kura: AppBenchmark, og: AppBenchmark): { meets
     console.log(
       `  success rate   | kura=${(kuraResult.successRate * 100).toFixed(1)}% og=${(ogResult.successRate * 100).toFixed(1)}%`,
     );
-    console.log(`  target(${targetReductionPct}% latency+memory): ${endpointPass ? "PASS" : "FAIL"}`);
+    console.log(
+      `  target(${targetReductionPct}% latency+memory): ${endpointPass ? "PASS" : "FAIL"}`,
+    );
   }
 
   return { meetsTarget };
 }
 
-async function assertFunctionalAndAccuracy(baseUrl: string, endpoints: EndpointCheck[], expected: ExpectedStats): Promise<void> {
+async function assertFunctionalAndAccuracy(
+  baseUrl: string,
+  endpoints: EndpointCheck[],
+  expected: ExpectedStats,
+): Promise<void> {
   for (const endpoint of endpoints) {
     const response = await fetch(`${baseUrl}${endpoint.path}`);
     const text = await response.text();
@@ -459,7 +471,8 @@ async function main(): Promise<void> {
     throw new Error("Set GITHUB_TOKEN or PAT_1 before running production verification.");
   }
 
-  const gistId = process.env.VERIFY_GIST_ID ?? (await discoverFixtureGist(username)) ?? fallbackGistId;
+  const gistId =
+    process.env.VERIFY_GIST_ID ?? (await discoverFixtureGist(username)) ?? fallbackGistId;
   if (!gistId) {
     throw new Error("No usable gist id found. Set VERIFY_GIST_ID and re-run.");
   }

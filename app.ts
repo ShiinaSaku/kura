@@ -134,8 +134,18 @@ function toInteger(value: string | undefined): number {
   return Number.parseInt(value ?? "", 10);
 }
 
+function toFiniteInteger(value: string | undefined): number | undefined {
+  const parsed = Number.parseInt(value ?? "", 10);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
 function toFloat(value: string | undefined): number {
   return Number.parseFloat(value ?? "");
+}
+
+function toFiniteFloat(value: string | undefined): number | undefined {
+  const parsed = Number.parseFloat(value ?? "");
+  return Number.isFinite(parsed) ? parsed : undefined;
 }
 
 function parseEnum<T extends string>(
@@ -471,7 +481,7 @@ app.get("/api", async (c) => {
         bg_color: query.bg_color,
         theme: query.theme,
         custom_title: query.custom_title,
-        border_radius: toFloat(query.border_radius),
+        border_radius: toFiniteFloat(query.border_radius),
         border_color: query.border_color,
         number_format: query.number_format,
         number_precision: toInteger(query.number_precision),
@@ -519,7 +529,7 @@ app.get("/api/pin", async (c) => {
         text_color: query.text_color,
         bg_color: query.bg_color,
         theme: query.theme,
-        border_radius: toFloat(query.border_radius),
+        border_radius: toFiniteFloat(query.border_radius),
         border_color: query.border_color,
         show_owner: parseBoolean(query.show_owner),
         locale: query.locale?.toLowerCase(),
@@ -558,13 +568,15 @@ app.get("/api/top-langs", async (c) => {
 
   try {
     const githubClient = createRetryingGitHubClientFromBindings(c.env);
+    const sizeWeight = toFiniteFloat(query.size_weight);
+    const countWeight = toFiniteFloat(query.count_weight);
     const topLangs = await fetchTopLanguages(
       query.username,
       {
         excludeRepositories: parseArray(query.exclude_repo),
         defaultExcludeRepositories: parseCsvBinding(c.env.EXCLUDE_REPO),
-        sizeWeight: toFloat(query.size_weight),
-        countWeight: toFloat(query.count_weight),
+        ...(sizeWeight === undefined ? {} : { sizeWeight }),
+        ...(countWeight === undefined ? {} : { countWeight }),
       },
       githubClient,
     );
@@ -587,8 +599,8 @@ app.get("/api/top-langs", async (c) => {
         text_color: query.text_color,
         bg_color: query.bg_color,
         theme: query.theme,
-        langs_count: toInteger(query.langs_count),
-        border_radius: toFloat(query.border_radius),
+        langs_count: toFiniteInteger(query.langs_count),
+        border_radius: toFiniteFloat(query.border_radius),
         border_color: query.border_color,
         locale: query.locale?.toLowerCase(),
         disable_animations: parseBoolean(query.disable_animations),
@@ -650,11 +662,11 @@ app.get("/api/wakatime", async (c) => {
         bg_color: query.bg_color,
         theme: query.theme,
         hide_progress: parseBoolean(query.hide_progress),
-        border_radius: toFloat(query.border_radius),
+        border_radius: toFiniteFloat(query.border_radius),
         border_color: query.border_color,
         locale: query.locale?.toLowerCase(),
         layout: parseEnum(query.layout, ["compact", "normal"] as const),
-        langs_count: toInteger(query.langs_count),
+        langs_count: toFiniteInteger(query.langs_count),
         display_format: parseEnum(query.display_format, ["time", "percent"] as const),
         disable_animations: parseBoolean(query.disable_animations),
       }),
@@ -696,7 +708,7 @@ app.get("/api/gist", async (c) => {
         text_color: query.text_color,
         bg_color: query.bg_color,
         theme: query.theme,
-        border_radius: toFloat(query.border_radius),
+        border_radius: toFiniteFloat(query.border_radius),
         border_color: query.border_color,
         locale: query.locale?.toLowerCase(),
         show_owner: parseBoolean(query.show_owner),

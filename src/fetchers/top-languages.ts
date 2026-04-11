@@ -44,6 +44,14 @@ export type FetchTopLanguagesOptions = {
   countWeight?: number;
 };
 
+const normalizeWeight = (value: number | undefined, fallback: number): number => {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return fallback;
+  }
+
+  return value;
+};
+
 const TOP_LANGUAGES_QUERY = `
   query userInfo($login: String!) {
     user(login: $login) {
@@ -187,8 +195,8 @@ export async function fetchTopLanguages(
     excludeRepositories: options.excludeRepositories ?? [],
     defaultExcludeRepositories: options.defaultExcludeRepositories ?? [],
     hiddenLanguages: options.hiddenLanguages ?? [],
-    sizeWeight: options.sizeWeight ?? 1,
-    countWeight: options.countWeight ?? 0,
+    sizeWeight: normalizeWeight(options.sizeWeight, 1),
+    countWeight: normalizeWeight(options.countWeight, 0),
   });
 }
 

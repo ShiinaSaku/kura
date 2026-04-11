@@ -200,6 +200,14 @@ const getDisplayValue = (size, percentages, format) => {
   return format === "bytes" ? formatBytes(size) : `${percentages.toFixed(2)}%`;
 };
 
+const getSafePercent = (value: number, total: number): number => {
+  if (!Number.isFinite(value) || !Number.isFinite(total) || total <= 0) {
+    return 0;
+  }
+
+  return (value / total) * 100;
+};
+
 /**
  * Create progress bar text item for a programming language.
  *
@@ -219,7 +227,7 @@ const createProgressTextNode = ({ width, color, name, size, totalSize, statsForm
   const progressTextX = width - paddingRight + 10;
   const progressWidth = width - paddingRight;
 
-  const progress = (size / totalSize) * 100;
+  const progress = getSafePercent(size, totalSize);
   const displayValue = getDisplayValue(size, progress, statsFormat);
 
   return `
@@ -257,7 +265,7 @@ const createCompactLangNode = ({
   statsFormat = "percentages",
   index,
 }) => {
-  const percentages = (lang.size / totalSize) * 100;
+  const percentages = getSafePercent(lang.size, totalSize);
   const displayValue = getDisplayValue(lang.size, percentages, statsFormat);
 
   const staggerDelay = (index + 3) * 150;
@@ -303,7 +311,7 @@ const createLanguageTextNode = ({ langs, totalSize, hideProgress, statsFormat })
     }).join("");
   });
 
-  const percent = ((longestLang.size / totalSize) * 100).toFixed(2);
+  const percent = getSafePercent(longestLang.size, totalSize).toFixed(2);
   const minGap = 150;
   const maxGap = 20 + measureText(`${longestLang.name} ${percent}%`, 11);
   return flexLayout({
@@ -388,7 +396,9 @@ const renderCompactLayout = (
   let progressOffset = 0;
   const compactProgressBar = langs
     .map((lang) => {
-      const percentage = parseFloat(((lang.size / totalLanguageSize) * offsetWidth).toFixed(2));
+      const percentage = parseFloat(
+        ((getSafePercent(lang.size, totalLanguageSize) / 100) * offsetWidth).toFixed(2),
+      );
 
       const progress = percentage < 10 ? percentage + 10 : percentage;
 
@@ -454,7 +464,7 @@ const renderDonutVerticalLayout = (langs, totalLanguageSize, statsFormat) => {
 
   // Generate each donut vertical chart part
   for (const lang of langs) {
-    const percentage = (lang.size / totalLanguageSize) * 100;
+    const percentage = getSafePercent(lang.size, totalLanguageSize);
     const circleLength = totalCircleLength * (percentage / 100);
     const delay = startDelayCoefficient * 100;
 
@@ -542,7 +552,7 @@ const renderPieLayout = (langs, totalLanguageSize, statsFormat) => {
       break;
     }
 
-    const langSizePart = lang.size / totalLanguageSize;
+    const langSizePart = getSafePercent(lang.size, totalLanguageSize) / 100;
     const percentage = langSizePart * 100;
     // Calculate the angle for the current part
     const angle = langSizePart * 360;
@@ -614,6 +624,9 @@ const createDonutPaths = (cx, cy, radius, percentages) => {
   let endAngle = 0;
 
   const totalPercent = percentages.reduce((acc, curr) => acc + curr, 0);
+  if (!Number.isFinite(totalPercent) || totalPercent <= 0) {
+    return percentages.map(() => ({ d: "", percent: 0 }));
+  }
   for (let i = 0; i < percentages.length; i++) {
     const tmpPath = {};
 
@@ -651,7 +664,7 @@ const renderDonutLayout = (langs, width, totalLanguageSize, statsFormat) => {
 
   const colors = langs.map((lang) => lang.color);
   const langsPercents = langs.map((lang) =>
-    parseFloat(((lang.size / totalLanguageSize) * 100).toFixed(2)),
+    parseFloat(getSafePercent(lang.size, totalLanguageSize).toFixed(2)),
   );
 
   const langPaths = createDonutPaths(centerX, centerY, radius, langsPercents);
@@ -663,6 +676,10 @@ const renderDonutLayout = (langs, width, totalLanguageSize, statsFormat) => {
           .map((section, index) => {
             const staggerDelay = (index + 3) * 100;
             const delay = staggerDelay + 300;
+
+            if (!section.d) {
+              return "";
+            }
 
             const output = `
        <g class="stagger" style="animation-delay: ${delay}ms">

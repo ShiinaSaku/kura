@@ -37,20 +37,20 @@
 Example:
 
 ```md
-![Stats](https://api.kmi.moe/api?username=your_username)
+![Stats](https://kura.kmi.moe/api?username=shiinasaku)
 ```
 
 ## API Endpoints
 
-| Route | Description |
-| --- | --- |
-| `/api?username=` | GitHub stats card |
-| `/api/pin?username=&repo=` | Repository pin card |
-| `/api/top-langs?username=` | Top languages card |
-| `/api/wakatime?username=` | WakaTime card |
-| `/api/gist?id=` | Gist card |
-| `/api/status/up` | Service/token health |
-| `/api/status/pat-info` | Token diagnostic info |
+| Route                      | Description           |
+| -------------------------- | --------------------- |
+| `/api?username=`           | GitHub stats card     |
+| `/api/pin?username=&repo=` | Repository pin card   |
+| `/api/top-langs?username=` | Top languages card    |
+| `/api/wakatime?username=`  | WakaTime card         |
+| `/api/gist?id=`            | Gist card             |
+| `/api/status/up`           | Service/token health  |
+| `/api/status/pat-info`     | Token diagnostic info |
 
 ## Platform-Agnostic Deployment Guide
 
@@ -64,23 +64,21 @@ Checked-in platform configs in this repo:
 - `render.yaml` (Render blueprint)
 - `fly.toml` (Fly.io baseline)
 
-### Optional Bundling (Rolldown)
+### Build
 
-If you want pre-bundled artifacts for deployment or analysis:
+No bundler is required.
 
-- `pnpm run build:bundle`
-- Output: `dist/` (entries for app, worker, and vercel handler)
-
-Config is in `rolldown.config.mjs`.
+- `pnpm run build` is a no-op because this project deploys directly without a bundle step.
+- Optional strict check: `pnpm run typecheck`.
 
 ### Vercel
 
 - Use the deploy button above.
 - Set environment variables:
-	- `PAT_1` (required)
-	- Optional: `PAT_2`, `PAT_3`, ...
-	- Optional: `FETCH_MULTI_PAGE_STARS=true`
-	- Optional: `CACHE_SECONDS=86400`
+  - `PAT_1` (required)
+  - Optional: `PAT_2`, `PAT_3`, ...
+  - Optional: `FETCH_MULTI_PAGE_STARS=true`
+  - Optional: `CACHE_SECONDS=86400`
 - Build command: none
 - Start command: `node --env-file=.env --import tsx dev.js`
 
@@ -90,12 +88,12 @@ This repo includes a ready-to-use `vercel.json` wired for Hono on Vercel.
 
 - This repo includes `wrangler.toml` and `worker.ts`.
 - Set secrets:
-	- `wrangler secret put PAT_1`
-	- Optional: `wrangler secret put PAT_2`
+  - `wrangler secret put PAT_1`
+  - Optional: `wrangler secret put PAT_2`
 - Local dev:
-	- `pnpm run dev:cf`
+  - `pnpm run dev:cf`
 - Deploy:
-	- `pnpm run deploy:cf`
+  - `pnpm run deploy:cf`
 
 The worker runs in module mode (`export default app`) with `nodejs_compat` enabled in `wrangler.toml`.
 
@@ -184,16 +182,16 @@ Use this checklist to avoid common production errors:
 
 ## Environment Variables
 
-| Variable | Required | Purpose |
-| --- | --- | --- |
-| `PAT_1` | Yes (or `GITHUB_TOKEN`) | Primary GitHub token |
-| `PAT_2`, `PAT_3`, ... | No | Retry/failover tokens |
-| `GITHUB_TOKEN` | Optional | Alternative primary token |
-| `CACHE_SECONDS` | Optional | Global cache override |
-| `FETCH_MULTI_PAGE_STARS` | Optional | Fetch stars across pages (`true`/`false`) |
-| `WHITELIST` | Optional | Restrict usernames |
-| `GIST_WHITELIST` | Optional | Restrict gist IDs |
-| `EXCLUDE_REPO` | Optional | Global repo exclusions |
+| Variable                 | Required                | Purpose                                   |
+| ------------------------ | ----------------------- | ----------------------------------------- |
+| `PAT_1`                  | Yes (or `GITHUB_TOKEN`) | Primary GitHub token                      |
+| `PAT_2`, `PAT_3`, ...    | No                      | Retry/failover tokens                     |
+| `GITHUB_TOKEN`           | Optional                | Alternative primary token                 |
+| `CACHE_SECONDS`          | Optional                | Global cache override                     |
+| `FETCH_MULTI_PAGE_STARS` | Optional                | Fetch stars across pages (`true`/`false`) |
+| `WHITELIST`              | Optional                | Restrict usernames                        |
+| `GIST_WHITELIST`         | Optional                | Restrict gist IDs                         |
+| `EXCLUDE_REPO`           | Optional                | Global repo exclusions                    |
 
 Example `.env`:
 
@@ -244,6 +242,7 @@ All major query parameters from upstream are supported. For complete option refe
 ## Credits
 
 - Original project: https://github.com/anuraghazra/github-readme-stats
+
 ## License
 
 MIT
