@@ -4,19 +4,9 @@ import { I18n } from "../common/I18n";
 import { clampValue, lowercaseTrim } from "../common/ops";
 import { createProgressNode, flexLayout } from "../common/render";
 import { wakatimeCardLocales } from "../translations.js";
+import languageColors from "../common/languageColors.json";
 import type { WakaTimeData, WakaTimeLang } from "../fetchers/types.js";
 import type { WakaTimeOptions } from "./types.js";
-
-/** Import language colors.
- *
- * @description Here we use the workaround found in
- * https://stackoverflow.com/questions/66726365/how-should-i-import-json-in-node
- * since vercel is using v16.14.0 which does not yet support json imports without the
- * --experimental-json-modules flag.
- */
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const languageColors = require("../common/languageColors.json") as Record<string, string>;
 
 const DEFAULT_CARD_WIDTH = 495;
 const MIN_CARD_WIDTH = 250;

@@ -5,19 +5,9 @@ import { kFormatter, wrapTextMultiline } from "../common/fmt";
 import { encodeHTML } from "../common/html";
 import { icons } from "../common/icons";
 import { parseEmojis } from "../common/ops";
+import languageColors from "../common/languageColors.json";
 import type { GistData } from "../fetchers/types.js";
 import type { GistCardOptions } from "./types.js";
-
-/** Import language colors.
- *
- * @description Here we use the workaround found in
- * https://stackoverflow.com/questions/66726365/how-should-i-import-json-in-node
- * since vercel is using v16.14.0 which does not yet support json imports without the
- * --experimental-json-modules flag.
- */
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const languageColors = require("../common/languageColors.json") as Record<string, string>;
 
 const ICON_SIZE = 16;
 const CARD_DEFAULT_WIDTH = 400;
