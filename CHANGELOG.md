@@ -1,8 +1,6 @@
 # Changelog
 
-
 ## v1.1.0
-
 
 ### 🚀 Enhancements
 
@@ -21,4 +19,3 @@
 ### ❤️ Contributors
 
 - Saku ([@ShiinaSaku](https://github.com/ShiinaSaku))
-

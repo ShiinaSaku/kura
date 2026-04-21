@@ -45,16 +45,16 @@
   "dependencies": {
     "emoji-name-map": "^2.0.3",
     "github-username-regex": "^1.0.0",
-    "hono": "^4.12.12",
+    "hono": "^4.12.14",
     "word-wrap": "^1.2.5",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260411.1",
-    "@hono/node-server": "^1.19.13",
+    "@cloudflare/workers-types": "^4.20260421.1",
+    "@hono/node-server": "^2.0.0",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.2",
-    "wrangler": "^4.81.1"
+    "typescript": "^6.0.3",
+    "wrangler": "^4.84.0"
   },
   "engines": {
     "node": ">=22 <25"
