@@ -45,21 +45,20 @@
   "dependencies": {
     "emoji-name-map": "^2.0.3",
     "github-username-regex": "^1.0.0",
-    "hono": "^4.12.14",
+    "hono": "^4.12.21",
     "word-wrap": "^1.2.5",
-    "zod": "^4.3.6"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260421.1",
-    "@hono/node-server": "^2.0.0",
-    "tsx": "^4.21.0",
+    "@cloudflare/workers-types": "^4.20260520.1",
+    "@hono/node-server": "^2.0.3",
+    "tsx": "^4.22.3",
     "typescript": "^6.0.3",
-    "wrangler": "^4.84.0"
+    "wrangler": "^4.93.0"
   },
   "engines": {
     "node": ">=22 <25"
   },
-  "packageManager": "pnpm@10.33.0",
   "cloudflare": {
     "bindings": {
       "PAT_1": {
@@ -75,5 +74,6 @@
         "description": "Set `true` to fetch star counts beyond the first 100 repositories."
       }
     }
-  }
+  },
+  "packageManager": "pnpm@11.1.3"
 }
